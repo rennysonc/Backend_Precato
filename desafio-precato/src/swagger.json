@@ -1,0 +1,582 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Desafio Backend - Precato",
+        "description": "Teste prático proposto no processo seletivo da Precato",
+        "contact": {
+            "name": "Paulo Sérgio Moreira Ferreira",
+            "email": "paulo.smf98@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [{"url": "http://localhost:3000/"}],
+    "paths": {
+        "/credor": {
+            "post": {
+                "summary": "Cadastro de credor",
+                "description": "Cadastro de um novo credor ao banco, seu status deve ser aprovado ou reprovado.",
+                "tags": ["Credor"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Credor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "409": {
+                        "description": "CPF já cadastrado"
+                    },
+                    "400": {
+                        "description": "Informações preenchidas incorretamente"
+                    },
+                    "201": {
+                        "description": "Credor cadastrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta credor"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Buscar todos os credores",
+                "description": "Busca de todos os credores cadastrados",
+                "tags": ["Credor"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta credor"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/credor/{identificadorCredor}": {
+            "get": {
+                "summary": "Busca de um credor",
+                "description": "Busca de um credor usando seu UUID",
+                "tags": ["Credor"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorCredor",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta credor"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Credor não encontrado!"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Atualizar um credor",
+                "description": "Atualização de um credor já registrado, seu status deve ser aprovado ou reprovado. Busca feita por UUID.",
+                "tags": ["Credor"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Atualizar credor"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorCredor",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "409": {
+                        "description": "CPF já cadastrado"
+                    },
+                    "404": {
+                        "description": "Credor não encontrado"
+                    },
+                    "400": {
+                        "description": "Informações preenchidas incorretamente"
+                    },
+                    "200": {
+                        "description": "Credor atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta credor"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletar um credor",
+                "description": "Deletar um credor registrado, seu status deve ser aprovado ou reprovado. Busca feita por UUID.",
+                "tags": ["Credor"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorCredor",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Credor não encontrado"
+                    },
+                    "200": {
+                        "description": "Credor deletado"
+                    }
+                }
+            }
+        },
+        "/ente-devedor": {
+            "post": {
+                "summary": "Cadastro de um ente devedor",
+                "description": "Cadastro de um novo ente devedor ao banco.",
+                "tags": ["Ente devedor"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ente devedor"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "409": {
+                        "description": "CNPJ já cadastrado"
+                    },
+                    "400": {
+                        "description": "Informações preenchidas incorretamente"
+                    },
+                    "201": {
+                        "description": "Ente devedor cadastrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta ente devedor"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Buscar todos os entes devedores",
+                "description": "Busca de todos os entes devedores cadastrados",
+                "tags": ["Ente devedor"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta ente devedor"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ente-devedor/{identificadorEnteDevedor}": {
+            "get": {
+                "summary": "Busca de um ente devedor",
+                "description": "Busca de um ente devedor usando seu UUID",
+                "tags": ["Ente devedor"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorEnteDevedor",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta ente devedor"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ente devedor não encontrado!"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Atualizar um ente devedor",
+                "description": "Atualização de um ente devedor já registrado. Busca feita por UUID.",
+                "tags": ["Ente devedor"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Atualizar ente devedor"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorEnteDevedor",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "409": {
+                        "description": "CNPJ já cadastrado"
+                    },
+                    "404": {
+                        "description": "Ente devedor não encontrado"
+                    },
+                    "400": {
+                        "description": "Informações preenchidas incorretamente"
+                    },
+                    "200": {
+                        "description": "Ente devedor atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta ente devedor"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletar um ente devedor",
+                "description": "Deletar um ente devedor registrado. Busca feita por UUID.",
+                "tags": ["Ente devedor"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorEnteDevedor",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Ente devedor não encontrado"
+                    },
+                    "200": {
+                        "description": "Ente devedor deletado"
+                    }
+                }
+            }
+        },
+        "/pagamento": {
+            "post": {
+                "summary": "Cadastro de um pagamento",
+                "description": "Cadastro de um novo pagamento ao banco.",
+                "tags": ["Pagamento"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Pagamento"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "404": {
+                        "description": "Credor ou ente devedor não registrado"
+                    },
+                    "400": {
+                        "description": "Informações preenchidas incorretamente"
+                    },
+                    "201": {
+                        "description": "Pagamento cadastrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta pagamento"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Buscar todos os pagamentos",
+                "description": "Busca de todos os pagamentos cadastrados",
+                "tags": ["Pagamento"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta pagamento"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pagamento/{identificadorPagamento}": {
+            "get": {
+                "summary": "Busca de um pagamento",
+                "description": "Busca de um pagamento usando seu UUID",
+                "tags": ["Pagamento"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorPagamento",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Resposta pagamento"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pagamento não encontrado!"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletar um pagamento",
+                "description": "Deletar um pagamento registrado. Busca feita por UUID.",
+                "tags": ["Pagamento"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "identificadorPagamento",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Pagamento não encontrado"
+                    },
+                    "200": {
+                        "description": "Pagamento deletado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Credor": {
+                "type": "object",
+                "properties": {
+                    "nomeCredor": {
+                        "type": "string",
+                        "example": "Nome"
+                    },
+                    "cpfCredor": {
+                        "type": "string",
+                        "example": "00000000000"
+                    },
+                    "statusCadastro": {
+                        "type": "string",
+                        "example": "aprovado"
+                    }
+                },
+                "required": [
+                    "nomeCredor",
+                    "cpfCredor",
+                    "statusCadastro"
+                ]
+            },
+            "Ente devedor": {
+                "type": "object",
+                "properties": {
+                    "nomeEnteDevedor": {
+                        "type": "string",
+                        "example": "Nome"
+                    },
+                    "cnpjEnteDevedor": {
+                        "type": "string",
+                        "example": "00000000000000"
+                    }
+                },
+                "required": [
+                    "nomeEnteDevedor",
+                    "cnpjEnteDevedor"
+                ]
+            },
+            "Pagamento": {
+                "type": "object",
+                "properties": {
+                    "cpfCredor": {
+                        "type": "string",
+                        "example": "00000000000"
+                    },
+                    "cnpjEnteDevedor": {
+                        "type": "string",
+                        "example": "00000000000000"
+                    },
+                    "valorInicial": {
+                        "type": "number",
+                        "example": 2
+                    },
+                    "valorFinal": {
+                        "type": "number",
+                        "example": 1
+                    }
+                },
+                "required": [
+                    "cpfCredor",
+                    "cnpjEnteDevedor",
+                    "valorInicial",
+                    "valorFinal"
+                ]
+            },
+            "Resposta credor": {
+                "type": "object",
+                "properties": {
+                    "nomeCredor": {
+                        "type": "string"
+                    },
+                    "cpfCredor": {
+                        "type": "string"
+                    },
+                    "statusCadastro": {
+                        "type": "string"
+                    },
+                    "identificadorCredor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Resposta ente devedor": {
+                "type": "object",
+                "properties": {
+                    "nomeEnteDevedor": {
+                        "type": "string"
+                    },
+                    "cnpjEnteDevedor": {
+                        "type": "string"
+                    },
+                    "identificadorEnteDevedor": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Resposta pagamento": {
+                "type": "object",
+                "properties": {
+                    "valorInicial": {
+                        "type": "number"
+                    },
+                    "valorFinal": {
+                        "type": "number"
+                    },
+                    "statusRemessa": {
+                        "type": "string"
+                    },
+                    "motivo": {
+                        "type": "string"
+                    },
+                    "identificadorRemessa": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "timestamp"
+                    }
+                }
+            },
+            "Atualizar credor": {
+                "type": "object",
+                "properties": {
+                    "nomeCredor": {
+                        "type": "string",
+                        "example": "Nome"
+                    },
+                    "cpfCredor": {
+                        "type": "string",
+                        "example": "00000000000"
+                    },
+                    "statusCadastro": {
+                        "type": "string",
+                        "example": "aprovado"
+                    }
+                }
+            },
+            "Atualizar ente devedor": {
+                "type": "object",
+                "properties": {
+                    "nomeEnteDevedor": {
+                        "type": "string",
+                        "example": "Nome"
+                    },
+                    "cnpjEnteDevedor": {
+                        "type": "string",
+                        "example": "00000000000000"
+                    }
+                }
+            }
+        }
+    }
+}
